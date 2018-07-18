@@ -18,7 +18,9 @@ if (!class_exists( 'AVA_Fields_Field' )) {
 
 		public $html;
 
-		public $value;
+		public $option;
+
+        public $options;
 
 		public function __construct($container_id, $section_id, $id, $params) {
 
@@ -32,13 +34,25 @@ if (!class_exists( 'AVA_Fields_Field' )) {
 
 			$this->params = $params;
 
-			$this->value = $this->value();
+			$this->option = $this->option();
+
+            $this->options = $this->container()->options->options;
 		}
 
-		public function value() {
-			$value = $this->container()->options->get($this->section_id, $this->id, $this->params['value']);
-			return $value;
+		public function option() {
+			$option = $this->container()->options->get($this->id, $this->params['value']);
+			dump($option);
+			return $option;
 		}
+
+        public function get_value($key, $key2=null) {
+		    if (empty($key2)) {
+		        return isset($this->options[$key]) ? $this->options[$key]:'';
+            } else {
+                return isset($this->options[$key]) && isset($this->options[$key][$key2])  ? $this->options[$key][$key2]:'';
+            }
+            return '';
+        }
 
 		public function get_name_attr() {
 			return esc_attr( $this->section_id . '['.$this->id.']');
@@ -81,12 +95,14 @@ if (!class_exists( 'AVA_Fields_Field' )) {
 			return $html;
 		}
 
+		/*
 		public function add_class($class) {
 			if (!empty($this->params['attrs']['class']))
 				$this->params['attrs']['class'] = $class.' '.$this->params['attrs']['class'];
 			else
 				$this->params['attrs']['class'] = $class;
 		}
+		*/
 
 
 		// Get attributes

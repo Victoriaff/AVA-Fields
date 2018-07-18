@@ -71,9 +71,13 @@ if ( ! class_exists( 'AVA_Fields_Section' ) ) {
 
 			$this->html = '<div class="avaf-section ' . esc_attr( implode( ' ', $classes ) ) . '" data-section="' . esc_attr( $this->id ) . '">';
 
+            $this->html .= '<form class="avaf-form" data-nonce="de9b85ac62" enctype="multipart/form-data">';
+
 			foreach ( $this->fields as $field_id => $field ) {
 				$this->html .= $field->render();
 			}
+
+            $this->html .= '</form>';
 
 			$this->html .= '</div>';
 

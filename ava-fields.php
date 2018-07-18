@@ -135,10 +135,13 @@ if ( ! class_exists( 'AVA_Fields' ) ) {
 			// Create container
 			if ( class_exists($container_class)) {
 				$container = new $container_class( $params );
-				
+
+
+
 				if ( $container ) {
 					self::$containers[ $params['container']['id'] ] = $container;
 				}
+
 				return $container;
 			}
 
@@ -152,11 +155,13 @@ if ( ! class_exists( 'AVA_Fields' ) ) {
 			add_action( 'toplevel_page_ava-fields', function () {
 				
 				//dd(self::$containers);
-				
+
+				$html = '';
+
 				foreach ( self::$containers as $container_id => $container ) {
 					//dump($obj_container);
 					
-					$html = $container->render();
+					$html .= $container->render();
 					
 					//dump($html);
 				}

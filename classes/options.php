@@ -43,50 +43,33 @@ if ( ! class_exists( 'AVA_Fields_Options' ) ) {
 
 		public static function save() {
 
-			dump(unserialize($data));
-			parse_str($_REQUEST['data'], $data);
+			//dump(unserialize($data));
+			//parse_str($_REQUEST['data'], $data);
 
 			$response = array(
-				'result' => 'fail'
+				'result' => 'ok'
 			);
-			$response['data'] = $data;
-			$response['sections'] = ava_fields()->containers;
 
-			dump($data);
-			dump($response);
+			$option_name = $_REQUEST['option_name'];
+            $response['$option_name'] = $option_name;
+
+            $option_value = (array)json_decode(stripslashes($_REQUEST['data']));
+            $response['$option_value'] = $option_value;
+
+			update_option($option_name, $option_value);
+
+			//$response['data'] = json_decode($_REQUEST);
+			//$response['sections'] = ava_fields()->containers;
+
+			//dump($data);
+			//dump($response);
 
 			wp_send_json($response);
 			exit;
-
-
-			dump($response);
-
-
-
-			$options = array();
-
-			foreach($data as $section=>$val) {
-				foreach($val as $field=>$value) {
-
-				}
-			}
-
-			//wp_send_json(array('ssdsd'));
-			//exit;
-
-			/*
-			global $wp_actions, $wp_filter;
-
-			wp_send_json(array(
-				'wp_actions' => $wp_actions,
-				'ava_fields_init' => $wp_filter['ava_fields_init']
-			));
-			*/
-
 		}
 
 
-		public function get( $section_id, $field, $deafult = '' ) {
+		public function get( $field, $deafult = '' ) {
 
 			//dump($section);
 			//dump($field);
@@ -94,8 +77,8 @@ if ( ! class_exists( 'AVA_Fields_Options' ) ) {
 
 			// Get from Array
 			if ( $this->save_as == 'array' ) {
-				if ( ! empty( $this->options[ $section_id ][ $field ] ) ) {
-					return $this->options[ $section_id ][ $field ];
+				if ( ! empty( $this->options[ $field ] ) ) {
+					return $this->options[ $field ];
 				} else if ( ! empty( $deafult ) ) {
 					return $deafult;
 				} else {
@@ -105,7 +88,7 @@ if ( ! class_exists( 'AVA_Fields_Options' ) ) {
 
 			// Get from Row
 			if ( $this->save_as == 'row' ) {
-				$key = $this->option_name . '|' . $section_id . '|' . $field;
+				$key = $this->option_name . '|' . $field;
 
 				return get_option( $key );
 			}

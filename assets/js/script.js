@@ -1,33 +1,61 @@
 (function ($) {
     "use strict";
 
-    // Change secction
+    // Change section
     $('body').on('click', '.avaf-nav-item:not(.active)', function(e) {
         e.preventDefault();
 
+        var $container = $(this).parents('.avaf-container');
         var section = $(this).data('section');
-        $('.avaf-nav-item, .avaf-section').removeClass('active');
-        $('.avaf-nav-item[data-section='+section+'], .avaf-section[data-section='+section+']').addClass('active');
+
+        $container.find('.avaf-nav-item, .avaf-section').removeClass('active');
+        $container.find('.avaf-nav-item[data-section='+section+'], .avaf-section[data-section='+section+']').addClass('active');
     });
+
+    function get_value($this) {
+        if ($this.is('input')) return $this.val();
+        if ($this.is('textarea')) return $this.val();
+    }
 
     // Save data
     $('body').on('click', '.avaf-save', function(e) {
         e.preventDefault();
 
-        var container = $(this).data('container'),
-            data = $('.avaf-form[data-container='+container+']').serialize(),
-            $form = $(this).parents('form'),
-            container = $form.data('container');
+        var $container = $(this).parents('.avaf-container');
+
+        var data = {};
+
+        $container.find('.avaf-section.active').find('.avafl-save').each( function() {
+            var name = $(this).attr('name');
+            var option = $(this).data('option');
+            if (option==undefined) option = name;
+            //console.log(option);
+
+
+            if (name==option) {
+                data[option] = get_value($(this));
+            } else {
+                data[option] = {};
+                data[option][name] = get_value($(this));
+            }
+        });
 
         console.log(data);
+        console.log(JSON.stringify(data));
+        var c = JSON.stringify(data);
+        console.log(c);
+
+
 
         var data = {
             'action': 'avaf-save',
-            'container': container,
-            'data': data,
+            'option_name': $container.data('option_name'),
+            'data': JSON.stringify(data),
             //'_ajax_nonce': EHAccountPanel._ajax_nonce
         };
         console.log(data);
+
+        //return;
 
         //$checked = ehCoreFront.hl_required($form);
 

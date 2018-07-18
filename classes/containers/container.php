@@ -53,7 +53,7 @@ if ( ! class_exists( 'AVA_Fields_Container' ) ) {
 
 		public function render() {
 
-			$this->html = '<div class="avaf avaf-'.$this->params['container']['type'].'  avaf-'.$this->params['container']['id'].'" data-container="' . esc_attr( $this->id ).'">';
+			$this->html = '<div class="avaf avaf-container avaf-'.$this->params['container']['type'].'" data-container="' . esc_attr( $this->id ).'" data-option_name="' . esc_attr( $this->params['db']['option_name'] ).'">';
 
 			$this->html .= $this->get_header();
 
@@ -87,12 +87,12 @@ if ( ! class_exists( 'AVA_Fields_Container' ) ) {
 				
 				foreach ( $this->sections as $section_id => $section ) {
 					
-					$this->html .= '<form class="avaf-form" method="post" data-nonce="de9b85ac62" enctype="multipart/form-data" data-container="' . esc_attr( $this->id ) . '" data-section="' . esc_attr( $section_id ) . '">';
+
 					$this->html .= $section->render( array(
 							'active' => $active_section
 						)
 					);
-					$this->html .= '</form>';
+
 				}
 				$this->html .= '</div>';
 				// end Section
