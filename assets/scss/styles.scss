@@ -1,0 +1,166 @@
+
+@import "_colors.scss";
+
+.clearfix:before, .clearfix:after {
+  content: " ";
+  display: table;
+}
+
+.clearfix:after {
+  clear: both;
+}
+
+
+
+.avaf {
+
+
+  .avaf-nav-sections {
+
+    &.horizontal {
+      flex-direction: column;
+
+      .avaf-nav {
+        display: flex;
+        flex-direction: row;
+
+        .avaf-nav-item {
+          margin-right: 3px;
+        }
+      }
+
+    }
+
+    &.vertical {
+      flex-direction: row;
+      flex-wrap: nowrap;
+
+      .avaf-nav {
+        display: flex;
+        flex-direction: column;
+        width: 150px;
+
+        .avaf-nav-item {
+
+        }
+      }
+
+      .avaf-sections {
+        display: flex;
+      }
+
+    }
+  }
+
+
+  // header
+  .avaf-header {
+
+    .avaf-title {
+      font-size:20px;
+      margin-top:15px;
+    }
+
+    .avaf-subtitle {
+      font-size:15px;
+      margin-top:10px;
+    }
+  }
+
+  // Nav tabs
+  .avaf-nav-sections {
+    display: flex;
+
+    .avaf-nav {
+      display: flex;
+      flex-wrap: nowrap;
+
+      .avaf-nav-item {
+        display: flex;
+        align-content: center;
+        padding: 6px 8px;
+        border-left: 1px $nav_border solid;
+        border-top: 1px $nav_border solid;
+        border-right: 1px $nav_border solid;
+        border-radius: 3px 3px 0 0;
+        background-color: #ddd;
+
+        img {
+          width: 18px;
+          height: 18px;
+          margin-right: 5px;
+
+        }
+        span {
+        }
+
+      }
+
+      .avaf-nav-item.active {
+        background-color: #fff;
+      }
+
+    }
+
+    // Sections
+    .avaf-sections {
+      display: flex;
+      background-color: #fff;
+      margin-right: 10px;
+      margin-left: -10px;
+
+      &.horizontal:before, &.horizontal:after {
+
+      }
+
+      .avaf-section {
+        display: none;
+
+        &.active {
+          display: block;
+        }
+        .avaf-group {
+          display: flex;
+          flex-wrap: wrap;
+          padding: 10px;
+          background-color: #f2f2f2;
+          border:1px #aaa dotted;
+
+          // Label
+          .avaf-label {
+            border:1px #aaa dotted;
+            font-size: 13px;
+
+            small {
+              font-size: 10px;
+              display: block;
+            }
+          }
+
+          // Field
+          .avaf-field {
+            border:1px #aaa dotted;
+            .avaf-before {
+              margin-right: 5px;
+            }
+            .avaf-after {
+              margin-left: 5px;
+            }
+
+          }
+
+        }
+
+      }
+
+    }
+
+  }
+
+}
+
+
+/** Elements */
+.avaf-submit {
+  margin:4px 2px !important;
+}
