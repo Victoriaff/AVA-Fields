@@ -8,12 +8,12 @@ if (!class_exists( 'AVA_Field_Textarea' )) {
 	{
 		public $type = 'textarea';
 		
-		public function __construct($container_id, $section_id, $id, $params) {
-			parent::__construct( $container_id, $section_id, $id, $params );
+		public function __construct(AVA_Fields_Container $container, AVA_Fields_Section $section, $id, $params) {
+			parent::__construct( $container, $section, $id, $params );
 		}
 
 		public function build() {
-			$this->html = '<textarea name="' . $this->id . '" class="avafl-save" data-option="' . $this->id . '" ' . $this->get_attrs() . '>'.wp_kses_post( $this->get_value($this->id) ) . '</textarea>';
+			$this->html = '<textarea name="' . $this->id . '" data-option="' . $this->id . '" ' . $this->get_attrs() . '>'.wp_kses_post( $this->get_value($this->id) ) . '</textarea>';
 		}
 	}
 }

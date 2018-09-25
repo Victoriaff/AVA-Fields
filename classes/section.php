@@ -11,7 +11,7 @@ if ( ! class_exists( 'AVA_Fields_Section' ) ) {
 
 		public $fields;
 
-		public $container_id;
+		public $container;
 
 		public $html;
 
@@ -21,12 +21,13 @@ if ( ! class_exists( 'AVA_Fields_Section' ) ) {
 		 *
 		 * @param $params
 		 */
-		public function __construct( $container_id, $id, $params ) {
+		public function __construct( AVA_Fields_Container $container, $id, $params ) {
 			global $wp_filesystem;
 
-			$this->container_id = $container_id;
+			$this->container = $container;
 			$this->id        = $id;
 			$this->params    = $params;
+
 
 			if ( ! empty( $params['fields'] && is_array( $params['fields'] ) ) ) {
 
@@ -36,9 +37,10 @@ if ( ! class_exists( 'AVA_Fields_Section' ) ) {
 						$class_name = 'AVA_Field_' . $field_params['type'];
 
 						if ( ! class_exists( $class_name ) ) {
-							$file = AVA_FIELDS_FIELDS_DIR .  $field_params['type'] . '/' . $field_params['type'] . '.php';
 
-							if ( $wp_filesystem->exists( $file ) ) {
+							$file = AVA_Fields()->dir('fields') .  $field_params['type'] . '/' . $field_params['type'] . '.php';
+
+							if ( file_exists( $file ) ) {
 								require_once( $file );
 
 							}
@@ -47,7 +49,7 @@ if ( ! class_exists( 'AVA_Fields_Section' ) ) {
 						// Add field
 						if ( class_exists( $class_name ) ) {
 
-							$field = new $class_name( $this->container_id, $this->id, $id, $field_params );
+							$field = new $class_name( $this->container, $this, $id, $field_params );
 							if ( $field ) {
 								$this->fields[ $id ] = $field;
 							}

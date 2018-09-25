@@ -10,64 +10,62 @@ if (!class_exists( 'AVA_Fields_Field' )) {
 
 		public $id;
 		
-		public $container_id;
+		public $container;
 		
-		public $section_id;
+		public $section;
 
 		public $params;
 
 		public $html;
 
-		public $option;
-
         public $options;
 
-		public function __construct($container_id, $section_id, $id, $params) {
-
-			//$this->type = $params['type'];
+		public function __construct(AVA_Fields_Container $container, AVA_Fields_Section $section, $id, $params) {
 
 			$this->id = $id;
-			
-			$this->container_id = $container_id;
-
-			$this->section_id = $section_id;
-
+			$this->container = $container;
+			$this->section = $section;
 			$this->params = $params;
-
-			$this->option = $this->option();
-
-            $this->options = $this->container()->options->options;
+            $this->options = $this->container->options->options;
 		}
 
-		public function option() {
-			$option = $this->container()->options->get($this->id, $this->params['value']);
-			dump($option);
-			return $option;
-		}
-
+		/**
+		 * Get value for output
+		 *
+		 * @param $key
+		 * @param null $key2
+		 *
+		 * @return mixed
+		 */
         public function get_value($key, $key2=null) {
 		    if (empty($key2)) {
-		        return isset($this->options[$key]) ? $this->options[$key]:'';
+		        return isset($this->options['options'][$key]) ? $this->options['options'][$key]:'';
             } else {
-                return isset($this->options[$key]) && isset($this->options[$key][$key2])  ? $this->options[$key][$key2]:'';
+                return isset($this->options['options'][$key]) && isset($this->options['options'][$key][$key2])  ? $this->options['options'][$key][$key2]:'';
             }
-            return '';
         }
 
+        /*
 		public function get_name_attr() {
-			return esc_attr( $this->section_id . '['.$this->id.']');
+			return esc_attr( $this->section->id . '['.$this->id.']');
 		}
 
 		public function get_id_attr() {
-			return esc_attr( 'avaf-'.$this->section_id . '-'.$this->id);
+			return esc_attr( 'avaf-'.$this->section->id . '-'.$this->id);
 		}
+        */
 
+		/**
+		 * Render group html
+		 *
+		 * @return string
+		 */
 		public function render() {
 
 			$this->html = '';
 			$this->build();
 
-			$html = '<div class="avaf-group" data-group="'.esc_attr($this->id).'">';
+			$html = '<div class="avaf-group" data-group="'.esc_attr($this->id).'" data-type="'.esc_attr($this->type).'">';
 
 				// label
 				$html .= $this->get_label();
@@ -85,7 +83,9 @@ if (!class_exists( 'AVA_Fields_Field' )) {
 			return $html;
 		}
 
-		// Get field label
+		/**
+		 * 	Get field label
+		 */
 		public function get_label() {
 			$html = '<label class="avaf-label col col-sm-2" for="avaf-'. esc_attr($this->id).'">';
 			if (!empty( $this->params['texts']['title'] )) $html .= $this->params['texts']['title'];
@@ -105,7 +105,10 @@ if (!class_exists( 'AVA_Fields_Field' )) {
 		*/
 
 
-		// Get attributes
+		/**
+		 * Get field attributes
+		 *
+		 */
 		public function get_attrs() {
 			if (empty($this->params['attrs']) && !is_array($this->params['attrs'])) return '';
 
@@ -116,40 +119,42 @@ if (!class_exists( 'AVA_Fields_Field' )) {
 			return implode(' ', $attrs);
 		}
 
-		// Get field description
+		/**
+		 * Get field description
+		 *
+		 */
 		public function get_desc() {
 			if (empty($this->params['texts']['desc'])) return '';
 
 			return '<div class="avaf-desc">' . $this->params['texts']['desc'] . '</div>';
 		}
 
-		// Get text before
+		/**
+		 * Get text before
+		 *
+		 */
 		public function get_before() {
 			if (empty($this->params['texts']['before'])) return '';
 
 			return '<span class="avaf-before">' . $this->params['texts']['before'] . '</span>';
 		}
 
-		// Get text after
+		/**
+		 * Get text after
+		 *
+		 */
 		public function get_after() {
 			if (empty($this->params['texts']['after'])) return '';
 
 			return '<span class="avaf-after">' . $this->params['texts']['after'] . '</span>';
 		}
-		
-		// Get container object
-		public function container() {
-			return ava_fields()->container( $this->container_id );
-		}
-		
-		// Get section object
-		public function section() {
-			return ava_fields()->section( $this->container_id, $this->section_id );
-		}
 
+		/**
+		 * Render field html
+		 *
+		 * @return mixed
+		 */
 		abstract public function build();
-
-
 	}
 }
 

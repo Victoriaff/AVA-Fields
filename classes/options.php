@@ -5,64 +5,42 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 if ( ! class_exists( 'AVA_Fields_Options' ) ) {
 	class AVA_Fields_Options {
+
 		public $options;
-
-		public $option_name;
-
-		public $save_as;
-
+		public $default = array(
+			'storage' => 'db',
+			'save_as'     => 'array' // array | row, default - array
+		);
 
 		public function __construct( $params ) {
 
-			//dd(get_option('acf_version'));
+			$this->options = AVA_Fields_Utils::params_default( $params['options'], $this->default );
 
-			$this->option_name = $params['db']['option_name'];
-
-			$this->save_as = ! empty( $params['db']['save_as'] ) && in_array( $params['db']['save_as'], array(
-				'array',
-				'row'
-			) ) ? $params['db']['save_as'] : 'array';
-
-			if ( $this->save_as == 'array' ) {
-				$this->options = get_option( $this->option_name );
+			if ( $this->options['save_as'] == 'array' ) {
+				$this->options['options'] = get_option( $this->options['option_name'] );
 			} else {
 
 			}
+			//dump($this->options);
 		}
-
-		/**
-		 * Save data
-		 */
-		public static function save2() {
-			dump('save');
-
-			//add_action( 'ava_fields_init', array( 'AVA_Fields_Options', 'save2' ) );
-			//do_action('ava_fields_init');
-		}
-
 
 		public static function save() {
 
-			//dump(unserialize($data));
-			//parse_str($_REQUEST['data'], $data);
-
 			$response = array(
-				'result' => 'ok'
+				'result' => 'ok',
+				'_REQUEST' => $_REQUEST
 			);
 
 			$option_name = $_REQUEST['option_name'];
             $response['$option_name'] = $option_name;
 
-            $option_value = (array)json_decode(stripslashes($_REQUEST['data']));
+            $option_value = $_REQUEST['options'];
             $response['$option_value'] = $option_value;
 
-			update_option($option_name, $option_value);
+            $options = get_option($option_name);
+			$options = array_merge($options, $option_value);
 
-			//$response['data'] = json_decode($_REQUEST);
-			//$response['sections'] = ava_fields()->containers;
-
-			//dump($data);
-			//dump($response);
+			update_option($option_name, $options);
 
 			wp_send_json($response);
 			exit;
@@ -71,14 +49,10 @@ if ( ! class_exists( 'AVA_Fields_Options' ) ) {
 
 		public function get( $field, $deafult = '' ) {
 
-			//dump($section);
-			//dump($field);
-			//dd($this->options[ $section ][ $field ]);
-
 			// Get from Array
-			if ( $this->save_as == 'array' ) {
-				if ( ! empty( $this->options[ $field ] ) ) {
-					return $this->options[ $field ];
+			if ( $this->options['save_as'] == 'array' ) {
+				if ( ! empty( $this->options['options'][ $field ] ) ) {
+					return $this->options['options'][ $field ];
 				} else if ( ! empty( $deafult ) ) {
 					return $deafult;
 				} else {
@@ -87,13 +61,13 @@ if ( ! class_exists( 'AVA_Fields_Options' ) ) {
 			}
 
 			// Get from Row
+			/*
 			if ( $this->save_as == 'row' ) {
 				$key = $this->option_name . '|' . $field;
 
 				return get_option( $key );
 			}
-
-
+			*/
 		}
 
 		/*
