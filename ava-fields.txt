@@ -1,393 +1,677 @@
-############## AVA Fields #########################
 
-if (class_exists('AVA_Fields')) {
-//add_action( 'ava-fields/init', function () {
 
-    $params = array(
+## Schema ###
+# {id}
+# {string}
+# 
 
-        'container' => array(
-            'type' => 'custom',
-            'id' => 'my_options',
-            'title' => __('Container title', ''),
-            'subtitle' => __('Container subtitle', ''),
-        ),
+## ACF ##
+# Text
+    
 
-        'appearance' => array(//'nav_style' => 'horizontal', // horizontal | vertical
-        ),
 
-        'db' => array(
-            'option_name' => '_my_options',
-            'save_as' => 'array' // array | row, default - array
-        ),
+## Functionality ##
+- Add Custom fields
+- Insert in any page in admin
+- Predefined containers:  
+- Support complex fields
+- Cookie 
+    - Last nav position for every container
+    
 
-        'access' => array(
-            'user_capability' => 'manage_options',
 
-            'user_id' => array(
-                'value' => 1,
-                'except' => true
+
+
+## View ##
+
+- Label + label description ( Intense )
+- Settings
+    - General
+        - 
+    - Storage
+    
+    
+
++++ Fields
+- Set - any types of fields in one block
+
+
+################################    Structiure   #########################################
+
+    'type' => 'custom','theme_options','post_meta','term_meta','user_meta','comment_meta'
+    
+    'access' => array(
+        'user_capability' => '',
+        'user_capability' => array('value' => '', 'except' => true),
+        
+        
+        'user_id' => '',
+        'user_role' => '',
+        
+        // post_meta
+        'post_format' => '',
+        'post_id' => '',
+        'post_level' => '',
+        'post_ancestor_id' => '',
+        'post_template' => '',
+        'post_term' => '',
+        'post_type' => '',
+        
+        // term_meta
+        'term' => '',
+        'term_parent' => '',
+        'term_level' => '',
+        'term_ancestor' => '',
+        'term_taxonomy' => '',
+        
+        // theme_options
+        'blog_id' => '',
+    ),
+    
+    
+    'data' => array(
+    
+        'tab' => array(
+            'title' => '',
+            
+            'field' => array(
+                
             ),
+        ),    
+            
+            
+        
+        
+    
+        'user_capability' => '',
+        'user_id' => '',
+        'user_role' => '',
+        
+        // post_meta
+        'post_format' => '',
+        'post_id' => '',
+        'post_level' => '',
+        'post_ancestor_id' => '',
+        'post_template' => '',
+        'post_term' => '',
+        'post_type' => '',
+        
+        // term_meta
+        'term' => '',
+        'term_parent' => '',
+        'term_level' => '',
+        'term_ancestor' => '',
+        'term_taxonomy' => '',
+        
+        // theme_options
+        'blog_id' => '',
+    ),
+    
 
-            'user_role' => 'administrator',
+    
+    
 
-            // post_meta
-            'post_format' => '',
-            'post_id' => '',
-            'post_level' => '',
-            'post_ancestor_id' => '',
-            'post_template' => '',
-            'post_term' => '',
-            'post_type' => '',
 
-            // term_meta
-            'term' => '',
-            'term_parent' => '',
-            'term_level' => '',
-            'term_ancestor' => '',
-            'term_taxonomy' => '',
+################################# AVA Fields #################################################
 
-            // theme_options
-            'blog_id' => '',
+# Text #
+    'type'  => 'text',
+    'value' => 'default value',
+    'attr'  => array( 'class' => 'custom-class', 'data-foo' => 'bar' ),
+    'label' => __('Label', '{domain}'),
+    'desc'  => __('Description', '{domain}'),
+    'help'  => __('Help tip', '{domain}'),
+    
+    + text right
+    
+    
+# Textarea #
+    'type'  => 'textarea',
+    'value' => 'default value',
+    'attr'  => array( 'class' => 'custom-class', 'data-foo' => 'bar' ),
+    'label' => __('Label', '{domain}'),
+    'desc'  => __('Description', '{domain}'),
+    'help'  => __('Help tip', '{domain}'),
+
+
+# Checkbox #
+    'type'  => 'checkbox',
+    'value' => true, // checked/unchecked
+    'attr'  => array( 'class' => 'custom-class', 'data-foo' => 'bar' ),
+    'label' => __('Label', '{domain}'),
+    'desc'  => __('Description', '{domain}'),
+    'help'  => __('Help tip', '{domain}'),
+    'text'  => __('Yes', '{domain}'),
+    
+# Checkboxes #
+    'type'  => 'checkboxes',
+    'value' => array(
+        'choice-1' => false,
+        'choice-2' => true,
+    ),
+    'attr'  => array( 'class' => 'custom-class', 'data-foo' => 'bar' ),
+    'label' => __('Label', '{domain}'),
+    'desc'  => __('Description', '{domain}'),
+    'help'  => __('Help tip', '{domain}'),
+    'choices' => array( // Note: Avoid bool or int keys http://bit.ly/1cQgVzk
+        'choice-1' => __('Choice 1', '{domain}'),
+        'choice-2' => __('Choice 2', '{domain}'),
+        'choice-3' => __('Choice 3', '{domain}'),
+    ),
+    // Display choices inline instead of list
+    'inline' => false,
+    
+    ->limit_options( $count )
+    
+# Radio #
+    'type'  => 'radio',
+    'value' => 'choice-3',
+    'attr'  => array( 'class' => 'custom-class', 'data-foo' => 'bar' ),
+    'label' => __('Label', '{domain}'),
+    'desc'  => __('Description', '{domain}'),
+    'help'  => __('Help tip', '{domain}'),
+    'choices' => array( // Note: Avoid bool or int keys http://bit.ly/1cQgVzk
+        'choice-1' => __('Choice 1', '{domain}'),
+        'choice-2' => __('Choice 2', '{domain}'),
+        'choice-3' => __('Choice 3', '{domain}'),
+    ),
+    // Display choices inline instead of list
+    'inline' => false,    
+    
+
+# Select #
+    'type'  => 'select',
+    'value' => 'choice-3',
+    'attr'  => array( 'class' => 'custom-class', 'data-foo' => 'bar' ),
+    'label' => __('Label', '{domain}'),
+    'desc'  => __('Description', '{domain}'),
+    'help'  => __('Help tip', '{domain}'),
+    'choices' => array(
+        '' => '---',
+        'choice-1' => __('Choice 1', '{domain}'),
+        'choice-2' => array(
+            'text' => __('Choice 2', '{domain}'),
+            'attr' => array('data-foo' => 'bar'),
         ),
-
-
-    );
-
-//    return;
-
-
-    $container = AVA_Fields::make($params);
-
-    $container->add_section('general', array(
-        'title' => __('General', ''),
-        'icon' => AVA_FIELDS_ICONS_URI . 'gray/general.png',
-        'icon_type' => 'image',
-
-        'fields' => array(
-
-            // Text
-            'text1' => array(
-                'type' => 'text',
-                'texts' => array(
-                    'title' => __('Title', '{domain}'),
-                    'subtitle' => __('Subtitle', '{domain}'),
-                    'desc' => __('Description', '{domain}'),
-                    'tip' => __('Help tip', '{domain}'),
-                    'before' => __('Text left', '{domain}'),
-                    'after' => __('Text right', '{domain}'),
-                ),
-                'attrs' => array(
-                    'class' => 'custom-class',
-                    'data-foo' => 'bar'
-                ),
-                'validate' => array(
-                    'cond' => '', // not_empty
-                    'regexp' => '', // regular expression
-                    'message' => __('Field is mandatory', '')
-                ),
-                'value' => 'default value',
+        array( // optgroup
+            'attr'    => array('label' => __('Group 1', '{domain}')),
+            'choices' => array(
+                'choice-3' => __('Choice 3', '{domain}'),
+                // ...
             ),
+        ),
+    ),
+    /**
+     * Allow save not existing choices
+     * Useful when you use the select to populate it dynamically from js
+     */
+    'no-validate' => false,
 
-            // Textarea
-            'textarea1' => array(
-                'type' => 'textarea',
-                'texts' => array(
-                    'title' => __('Textarea', '{domain}'),
-                    'subtitle' => __('Textarea subtitle', '{domain}'),
-                    'desc' => __('Textarea description', '{domain}'),
-                    'tip' => __('Textarea tip', '{domain}'),
-                    'before' => __('TA left', '{domain}'),
-                    'after' => __('TA right', '{domain}'),
-                ),
-                'attrs' => array(
-                    'class' => 'custom-class',
-                    'cols' => '60',
-                    'rows' => 5
-                ),
-                'validate' => array(
-                    'cond' => '', // not_empty
-                    'regexp' => '', // regular expression
-                    'message' => __('Field is mandatory', '')
-                ),
-                'value' => '',
+# Select Multiple #
+     'type'  => 'select-multiple',
+    'value' => array( 'choice-1', 'choice-3' ),
+    'attr'  => array( 'class' => 'custom-class', 'data-foo' => 'bar' ),
+    'label' => __('Label', '{domain}'),
+    'desc'  => __('Description', '{domain}'),
+    'help'  => __('Help tip', '{domain}'),
+    'choices' => array(
+        '' => '---',
+        'choice-1' => __('Choice 1', '{domain}'),
+        'choice-2' => array(
+            'text' => __('Choice 2', '{domain}'),
+            'attr' => array('data-foo' => 'bar'),
+        ),
+        array( // optgroup
+            'attr'    => array('label' => __('Group 1', '{domain}')),
+            'choices' => array(
+                'choice-3' => __('Choice 3', '{domain}'),
+                // ...
             ),
+        ),
+    ),    
+    
+        
+# Multi Select #
+    'type' => 'multi-select',
+    'value' => array('choice-1', 'choice-3'),
+    'attr' => array('class' => 'custom-class', 'data-foo' => 'bar'),
+    'label' => __( 'Label', '{domain}' ),
+    'desc' => __( 'Description', '{domain}' ),
+    'help' => __( 'Help tip', '{domain}' ),
+    /**
+     * Set population method
+     * Are available: 'posts', 'taxonomy', 'users', 'array'
+     */
+    'population' => 'array',
+    /**
+     * Set post types, taxonomies, user roles to search for
+     *
+     * 'population' => 'posts'
+     * 'source' => 'page',
+     *
+     * 'population' => 'taxonomy'
+     * 'source' => 'category',
+     *
+     * 'population' => 'users'
+     * 'source' => array( 'editor', 'subscriber', 'author' ),
+     *
+     * 'population' => 'array'
+     * 'source' => '' // will populate with 'choices' array
+     */
+    'source' => '',
+    /**
+     * Set the number of posts/users/taxonomies that multi-select will be prepopulated
+     * Or set the value to false in order to disable this functionality.
+     */
+    'prepopulate' => 10,
+    /**
+     * An array with the available choices
+     * Used only when 'population' => 'array'
+     */
+    'choices' => array(
+        'choice-1' => __( 'Choice 1', '{domain}' ),
+        'choice-2' => __( 'Choice 2', '{domain}' ),
+        'choice-3' => __( 'Choice 3', '{domain}' ),
+    ),
+    /**
+     * Set maximum items number that can be selected
+     */
+    'limit' => 100,
 
+    
+# Rich Text #
+    'type'  => 'wp-editor',
+    'value' => 'default value',
+    'attr'  => array( 'class' => 'custom-class', 'data-foo' => 'bar' ),
+    'label' => __('Label', '{domain}'),
+    'desc'  => __('Description', '{domain}'),
+    'help'  => __('Help tip', '{domain}'),
+    'size' => 'small', // small, large
+    'editor_height' => 400,
+    'wpautop' => true,
+    'editor_type' => false, // tinymce, html
 
+    /**
+     * By default, you don't have any shortcodes into the editor.
+     *
+     * You have two possible values:
+     *   - false:   You will not have a shortcodes button at all
+     *   - true:    the default values you provide in wp-shortcodes
+     *              extension filter will be used
+     *
+     *   - An array of shortcodes
+     */
+    'shortcodes' => false // true, array('button', map')
+
+    /**
+     * Also available
+     * https://github.com/WordPress/WordPress/blob/4.4.2/wp-includes/class-wp-editor.php#L80-L94
+     */
+     
+     
+
+    echo wpautop( carbon_get_the_post_meta('crb_sidenote') ); or
+    echo apply_filters( 'the_content', carbon_get_the_post_meta('crb_sidenote') );
+    
+    
+# ColorPicker #
+    'type'  => 'color-picker',
+    'value' => '#FF0000',
+    'attr'  => array( 'class' => 'custom-class', 'data-foo' => 'bar' ),
+    
+    // palette colors array
+    'palettes' => array( '#ba4e4e', '#0ce9ed', '#941940' ),
+    'label' => __('Label', '{domain}'),
+    'desc'  => __('Description', '{domain}'),
+    'help'  => __('Help tip', '{domain}'),
+    
+    ->set_alpha_enabled( true )
+    
+    _crb_background:#4D4D8D72
+    
+# Date #
+    'type'  => 'date-picker',
+    'value' => '',
+    'attr'  => array( 'class' => 'custom-class', 'data-foo' => 'bar' ),
+    'label' => __('Label', '{domain}'),
+    'desc'  => __('Description', '{domain}'),
+    'help'  => __('Help tip', '{domain}'),
+    'monday-first' => true, // The week will begin with Monday; for Sunday, set to false
+    
+    'min-date' => date('d-m-Y'), // By default minimum date will be current day. Set a date in format d-m-Y as a start date
+    'max-date' => null, // By default there is not maximum date. Set a date in format d-m-Y as a start date
+    
+    'options' 
+    flatpickr.js
+    
+    set_storage_format( $storage_format )
+    set_input_format( $php_format, $js_format )
+    set_picker_options( $options )
+    
+# DateTime #
+    'type'  => 'datetime-picker',
+    'value' => '',
+    'attr'  => array( 'class' => 'custom-class', 'data-foo' => 'bar' ),
+    'label' => __('Label', '{domain}'),
+    'desc'  => __('Description', '{domain}'),
+    'help'  => __('Help tip', '{domain}'),
+    'datetime-picker' => array(
+        'format'        => 'Y/m/d H:i', // Format datetime.
+        'maxDate'       => false,  // By default there is not maximum date , set a date in the datetime format.
+        'minDate'       => false,  // By default minimum date will be current day, set a date in the datetime format.
+        'timepicker'    => true,   // Show timepicker.
+        'datepicker'    => true,   // Show datepicker.
+        'defaultTime'   => '12:00' // If the input value is empty, timepicker will set time use defaultTime.
+    ),
+    
+    'options' 
+    flatpickr.js
+    
+    set_storage_format( $storage_format )
+    set_input_format( $php_format, $js_format )
+    set_picker_options( $options )
+    
+# DateTime Range #    
+    'type'  => 'datetime-range',
+    'attr'  => array( 'class' => 'custom-class', 'data-foo' => 'bar' ),
+    'label' => __('Label', '{domain}'),
+    'desc'  => __('Description', '{domain}'),
+    'help'  => __('Help tip', '{domain}'),
+    'datetime-pickers' => array(
+    'from' => array(
+        'minDate' => '1970/01/01', // By default minimum date will be current day, set a date in the datetime format.
+        'maxDate' => '2038/01/19', // By default there is not maximum date , set a date in the datetime format.
+        'format'  => 'Y/m/d H:i',  // Format datetime.
+        'timepicker'  => true,     // Show timepicker.
+        'datepicker'  => true,     // Show datepicker.
+        'step'        => 15        // Minutes step
+        ),
+    'to' => array(
+        'minDate' => '1970/01/01', // By default minimum date will be current day, set a date in the datetime format.
+        'maxDate' => '2038/01/19', // By default there is not maximum date , set a date in the datetime format.
+        'format'  => 'Y/m/d H:i',  // Format datetime.
+        'timepicker'  => true,     // Show timepicker.
+        'datepicker'  => true,     // Show datepicker.
+        'step'        => 15        // Minutes step
         )
-    ));
+    ),
+    'value' => array(
+        'from' => '',
+        'to' => ''
+    )
+    
+# Time #
+    ->set_storage_format( $storage_format )
+    ->set_input_format( $php_format, $js_format )
+    ->set_picker_options( $options )
+    
+# Icon #
+    See Unyson
+        
+# File #
+    'type'  => 'upload',
+    'value' => array(
+        /*
+        'attachment_id' => '9',
+        'url' => '//site.com/wp-content/uploads/2014/02/whatever.jpg'
+        */
+        // if value is set in code, it is not considered and not used
+        // because there is no sense to set hardcode attachment_id
+    ),
+    'attr'  => array( 'class' => 'custom-class', 'data-foo' => 'bar' ),
+    'label' => __('Label', '{domain}'),
+    'desc'  => __('Description', '{domain}'),
+    'help'  => __('Help tip', '{domain}'),
+    /**
+     * If set to `true`, the option will allow to upload only images, and display a thumb of the selected one.
+     * If set to `false`, the option will allow to upload any file from the media library.
+     */
+    'images_only' => true,
+    /**
+     * An array with allowed files extensions what will filter the media library and the upload files.
+     */
+    'files_ext' => array( 'doc', 'pdf', 'zip' ),
+    /**
+     * An array with extra mime types that is not in the default array with mime types from the javascript Plupload library.
+     * The format is: array( '<mime-type>, <ext1> <ext2> <ext2>' ).
+     * For example: you set rar format to filter, but the filter ignore it , than you must set
+     * the array with the next structure array( '.rar, rar' ) and it will solve the problem.
+     */
+    'extra_mime_types' => array( 'audio/x-aiff, aif aiff' )    
+    
+    ->set_type( $mime_type ) string or an array (audio, video, image).
+    ->set_value_type( $value_type ) - Set the type of the stored value. (ID | URL )
 
-    $container->add_section('styling', array(
-        'title' => __('Styling', ''),
-        'icon' => AVA_FIELDS_ICONS_URI . 'gray/styling.png',
-        'icon_type' => 'image',
+# Slider #
+    'type'  => 'slider',
+    'value' => 33,
+    'properties' => array(
+        /*
+        'min' => 0,
+        'max' => 100,
+        'step' => 1, // Set slider step. Always > 0. Could be fractional.
+        */
+    ),
+    'attr'  => array( 'class' => 'custom-class', 'data-foo' => 'bar' ),
+    'label' => __('Label', '{domain}'),
+    'desc'  => __('Description', '{domain}'),
+    'help'  => __('Help tip', '{domain}'),
 
-        'fields' => array(
+# Range Slider #
+    'type'  => 'range-slider',
+    'value' => array(
+        'from' => 10,
+        'to'   => 33,
+    ),
+    'properties' => array(
+        /*
+        'min' => 0,
+        'max' => 100,
+        'step' => 1, // Set slider step. Always > 0. Could be fractional.
+        */
+    ),
+    'attr'  => array( 'class' => 'custom-class', 'data-foo' => 'bar' ),
+    'label' => __('Label', '{domain}'),
+    'desc'  => __('Description', '{domain}'),
+    'help'  => __('Help tip', '{domain}'),
+    
+    
 
-            /*
-            'set1' => array(
-                'id' => 'set1',
-                'fields' => array(
-                    // Text
-                    '_text_set1' => array(
-                        'type'      => 'text',
-                        'set'       => 'inputs',
-                        'texts'  => array(
-                            'title'     => __('TextSet 1', '{domain}'),
-                            'subtitle'  => __('Subtitle', '{domain}'),
-                            'desc'      => __('Description', '{domain}'),
-                            'tip'       => __('Help tip', '{domain}'),
-                            'before'    => __('Text left', '{domain}'),
-                            'after'     => __('Text right', '{domain}'),
-                        ),
-                        'attrs'  => array(
-                            'class' => 'custom-class',
-                            'data-foo' => 'bar'
-                        ),
-                        'validate'    => array(
-                            'cond' => '', // not_empty
-                            'regexp' => '', // regular expression
-                            'message' => __('Field is mandatory', '')
-                        ),
-                        'value'   => 'default value',
-                    ),
-                    // Text
-                    '_text_set2' => array(
-                        'type'      => 'text',
-                        'set'       => 'inputs',
-                        'texts'  => array(
-                            'title'     => __('TextSet 2', '{domain}'),
-                            'subtitle'  => __('Subtitle', '{domain}'),
-                            'desc'      => __('Description', '{domain}'),
-                            'tip'       => __('Help tip', '{domain}'),
-                            'before'    => __('Text left', '{domain}'),
-                            'after'     => __('Text right', '{domain}'),
-                        ),
-                        'attrs'  => array(
-                            'class' => 'custom-class',
-                            'data-foo' => 'bar'
-                        ),
-                        'validate'    => array(
-                            'cond' => '', // not_empty
-                            'regexp' => '', // regular expression
-                            'message' => __('Field is mandatory', '')
-                        ),
-                        'value'   => 'default value',
-                    ),
-                )
-            ),
-            */
 
-            // Text
-            'text2' => array(
-                'type' => 'text',
-                'texts' => array(
-                    'title' => __('Title 2', '{domain}'),
-                    'subtitle' => __('Subtitle', '{domain}'),
-                    'desc' => __('Description', '{domain}'),
-                    'tip' => __('Help tip', '{domain}'),
-                    'before' => __('Text left', '{domain}'),
-                    'after' => __('Text right', '{domain}'),
-                ),
-                'attrs' => array(
-                    'class' => 'custom-class',
-                    'data-foo' => 'bar'
-                ),
-                'validate' => array(
-                    'cond' => '', // not_empty
-                    'regexp' => '', // regular expression
-                    'message' => __('Field is mandatory', '')
-                ),
-                'value' => 'default value2',
-            ),
+    
+    
+# Hidden #
+    'type'  => 'hidden',
+    'value' => 'default value',
+    'attr'  => array( 'class' => 'custom-class', 'data-foo' => 'bar' ),
 
+# Switch #
+    'type'  => 'switch',
+    'value' => 'hello',
+    'attr'  => array( 'class' => 'custom-class', 'data-foo' => 'bar' ),
+    'label' => __('Label', '{domain}'),
+    'desc'  => __('Description', '{domain}'),
+    'help'  => __('Help tip', '{domain}'),
+    'left-choice' => array(
+        'value' => 'goodbye',
+        'label' => __('Goodbye', '{domain}'),
+    ),
+    'right-choice' => array(
+        'value' => 'hello',
+        'label' => __('Hello', '{domain}'),
+    ),
+
+# Map #
+    'type'  => 'map',
+    'value' => array(
+        'coordinates' => array(
+            'lat'   => -34,
+            'lng'   => 150,
         )
-    ));
-
-    /********************************************************************
-     *                          �2
-     ********************************************************************/
-/*
-    $params = array(
-
-        'container' => array(
-            'type' => 'custom',
-            'id' => 'my_options2',
-            'title' => __('Container title', ''),
-            'subtitle' => __('Container subtitle', ''),
+    ),
+    'attr'  => array( 'class' => 'custom-class', 'data-foo' => 'bar' ),
+    'label' => __('Label', '{domain}'),
+    'desc'  => __('Description', '{domain}'),
+    'help'  => __('Help tip', '{domain}'),
+    
+    Atribute	Description	Value Type	Value
+    'value'	Latitude & Longitude	(string)	40.74866,-73.97982
+    'lat'	Latitude	(float)	40.74866
+    'lng'	Longitude	(float)	-73.97982
+    'address'	Address	(string)	45 Park Avenue, New York, NY 10016
+    'zoom'	Zoom level	(int)	8
+   
+# Media Gallery #
+   ->set_type( $mime_type ) 
+   ->set_duplicates_allowed( $allow )
+   
+# Image Picker #
+    'type' => 'image-picker',
+    'value' => 'image-2',
+    'attr' => array(
+        'class' => 'custom-class',
+        'data-foo' => 'bar',
+    ),
+    'label' => __( 'Label', '{domain}' ),
+    'desc' => __( 'Description', '{domain}' ),
+    'help' => __( 'Help tip', '{domain}' ),
+    'choices' => array(
+        'value-1' => get_template_directory_uri() . '/images/default_logo.png',
+        'value-2' => array(
+            // (required) url for thumbnail
+            'small' => get_template_directory_uri() . '/images/thumbnail.png',
+            // (optional) url for large image that will appear in tooltip
+            'large' => get_template_directory_uri() . '/images/preview.png',
+            // (optional) choice extra data for js, available in custom events
+            //'data' => array(...)
         ),
-
-        'appearance' => array(//'nav_style' => 'horizontal', // horizontal | vertical
+        'value-3' => array(
+            // (required) url for thumbnail
+            'small' => array(
+                'src' => get_template_directory_uri() . '/images/thumbnail.png',
+                'height' => 70
+            ),
+            // (optional) url for large image that will appear in tooltip
+            'large' => array(
+                'src' => get_template_directory_uri() . '/images/preview.png',
+                'height' => 400
+            ),
+            // (optional) choice extra data for js, available in custom events
+            //'data' => array(...)
         ),
+    ),
+    'blank' => true, // (optional) if true, images can be deselected
+                
+   
+# oEmbed #
+    'type'  => 'oembed',
+    'value' => 'https://vimeo.com/113078377',
+    'label' => __('Label', '{domain}'),
+    'desc'  => __('Description', '{domain}'),
+    'help'  => __('Help tip', '{domain}'),
+    'preview' => array(
+        'width'  => 300, // optional, if you want to set the fixed width to iframe
+        'height' => 300, // optional, if you want to set the fixed height to iframe
+        /**
+         * if is set to false it will force to fit the dimensions,
+         * because some widgets return iframe with aspect ratio and ignore applied dimensions
+         */
+        'keep_ratio' => true
+    )
+                
+   
 
-        'db' => array(
-            'option_name' => 'my_options',
-            'save_as' => 'array' // array | row, default - array
-        ),
-
-        'access' => array(
-            'user_capability' => 'manage_options',
-
-            'user_id' => array(
-                'value' => 1,
-                'except' => true
-            ),
-
-            'user_role' => 'administrator',
-
-            // post_meta
-            'post_format' => '',
-            'post_id' => '',
-            'post_level' => '',
-            'post_ancestor_id' => '',
-            'post_template' => '',
-            'post_term' => '',
-            'post_type' => '',
-
-            // term_meta
-            'term' => '',
-            'term_parent' => '',
-            'term_level' => '',
-            'term_ancestor' => '',
-            'term_taxonomy' => '',
-
-            // theme_options
-            'blog_id' => '',
-        ),
+//--------- Decor -------------------
+# Html # Just show html in options
+    'type'  => 'html',
+    'value' => 'default hidden value',
+    'attr'  => array( 'class' => 'custom-class', 'data-foo' => 'bar' ),
+    'label' => __('Label', '{domain}'),
+    'desc'  => __('Description', '{domain}'),
+    'help'  => __('Help tip', '{domain}'),
+    'html'  => 'My <b>custom</b> <em>HTML</em>',
+# Separator #
 
 
-    );
-
-//    return;
-
-
-    $container = AVA_Fields::make($params);
-
-    $container->add_section('general', array(
-        'title' => __('General', ''),
-        'icon' => AVA_FIELDS_ICONS_URI . 'gray/general.png',
-        'icon_type' => 'image',
-
-        'fields' => array(
-
-            // Text
-            'text1' => array(
-                'type' => 'text',
-                'texts' => array(
-                    'title' => __('Title', '{domain}'),
-                    'subtitle' => __('Subtitle', '{domain}'),
-                    'desc' => __('Description', '{domain}'),
-                    'tip' => __('Help tip', '{domain}'),
-                    'before' => __('Text left', '{domain}'),
-                    'after' => __('Text right', '{domain}'),
-                ),
-                'attrs' => array(
-                    'class' => 'custom-class',
-                    'data-foo' => 'bar'
-                ),
-                'validate' => array(
-                    'cond' => '', // not_empty
-                    'regexp' => '', // regular expression
-                    'message' => __('Field is mandatory', '')
-                ),
-                'value' => 'default value',
-            ),
-
-            // Textarea
-            'textarea' => array(
-                'type' => 'textarea',
-                'texts' => array(
-                    'title' => __('Textarea', '{domain}'),
-                    'subtitle' => __('Textarea subtitle', '{domain}'),
-                    'desc' => __('Textarea description', '{domain}'),
-                    'tip' => __('Textarea tip', '{domain}'),
-                    'before' => __('TA left', '{domain}'),
-                    'after' => __('TA right', '{domain}'),
-                ),
-                'attrs' => array(
-                    'class' => 'custom-class',
-                    'cols' => '60',
-                    'rows' => 5
-                ),
-                'validate' => array(
-                    'cond' => '', // not_empty
-                    'regexp' => '', // regular expression
-                    'message' => __('Field is mandatory', '')
-                ),
-                'value' => '',
-            ),
+   
+//---------------------------------
+Typography - Unyson
+Addable Option - Unyson
+Addable Box - Unyson
+Popup - Unyson
+Addable Popup - Unyson
+Multi-Picker
+    Dynamic Multi Picker
 
 
-        )
-    ));
-
-    $container->add_section('styling', array(
-        'title' => __('Styling', ''),
-        'icon' => AVA_FIELDS_ICONS_URI . 'gray/styling.png',
-        'icon_type' => 'image',
-
-        'fields' => array(
+Footer Script - Carbon
+Gravity Form - Carbon
+Header Scripts - Carbon
+Sidebar - Carbon
 
 
-
-            // Text
-            'text2' => array(
-                'type' => 'text',
-                'texts' => array(
-                    'title' => __('Title 2', '{domain}'),
-                    'subtitle' => __('Subtitle', '{domain}'),
-                    'desc' => __('Description', '{domain}'),
-                    'tip' => __('Help tip', '{domain}'),
-                    'before' => __('Text left', '{domain}'),
-                    'after' => __('Text right', '{domain}'),
-                ),
-                'attrs' => array(
-                    'class' => 'custom-class',
-                    'data-foo' => 'bar'
-                ),
-                'validate' => array(
-                    'cond' => '', // not_empty
-                    'regexp' => '', // regular expression
-                    'message' => __('Field is mandatory', '')
-                ),
-                'value' => 'default value2',
-            ),
-
-        )
-    ));
-
-*/
+     
 
 
-}
-//} );
+################################### Carbon ###################################################
 
-/*
-wp_send_json(array(
-		'ssdsd'=> AVA_Fields()
-));
-exit;
-*/
+Containers
+    theme_options - carbon_get_theme_option( 'crb_option' )
+    post_meta - carbon_get_post_meta( $id, $name ), carbon_get_the_post_meta( 'crb_slides' ) - in the loop;
+    term_meta - carbon_get_term_meta( $category->term_id, 'crb_color' );
+    user_meta
+    comment_meta
+    nav_menu_item
+    
+    
 
+Functions
+    Field::make()
+        ->set_datastore( new Serialized_Theme_Options_Datastore() ) - Serialized Datastore
+        
+        ->set_required( true )
+        ->set_default_value('CCCC')
+        ->set_layout( 'tabbed-horizontal' ) - tabs direction
+        ->set_help_text( 'Enter your Twitter profile url' ) - add description
+        ->set_width( 50 ) // condense layout so field takes only 50% of the available width
+        ->set_classes( 'my-custom-class' )
+        ->set_attribute( 'placeholder', '(***) ***-****' )
+        
+        
+    
+Container
+    Container::make()
+        ->where( 'post_type', '=', 'page' )
+        ->or_where( 'post_template', '=', 'template-template1.php' )  
 
-/*
-$avaf= array(
-		'general' => array(
-				'text1' => 'text1 val',
-				'textarea' => 'textare val',
-		)
-);
-
-update_option('avaf', $avaf);
-*/
-
-
-//dump($avaf);
-//dump(AVA_Fields::$containers);
-
-//});
-
-add_action( '1shutdown', function () {
-	global $wp_actions;
-	
-	dump( $wp_actions );
-} );
+        // Post type
+        ->set_context( 'normal' ) // 'advanced', 'side' or 'carbon_fields_after_title' - block position
+        ->set_priority( 'low' )
+        
+        // Theme Options
+        ->set_page_file( 'ajax-login-form' ) - set option URL
+        ->set_icon( 'dashicons-carrot' ) - set menu icon
+        ->set_page_menu_title( 'AJAX Login Form' ) - set menu title
+        ->set_page_menu_position( 80 ) - set menu position
+        
+        
+        
+        
+        
+        
+        
+Hooks
+    carbon_fields_theme_options_container_admin_only_access  - access to theme options
+    
+    // Saved
+    carbon_fields_post_meta_container_saved - after post type container saved
+    carbon_fields_theme_options_container_saved - after theme options container saved 
+    carbon_fields_term_meta_container_saved - after term meta container saved 
+    carbon_fields_user_meta_container_saved - after user meta container saved 
+    
+    
+Functions
+    carbon_hex_to_rgba( $hex );
+    
+    
+    

@@ -24,6 +24,8 @@ if ( ! class_exists( 'AVA_Fields_Container' ) ) {
 		public $options;
 
 
+
+
 		public function __construct( $params ) {
 
 			// Set default values
@@ -41,7 +43,8 @@ if ( ! class_exists( 'AVA_Fields_Container' ) ) {
 
 		public function add_section( $id, $params ) {
 
-			$section = new AVA_Fields_Section( $this, $id, $params );
+			$section = new AVA_Fields_Section( $this->id, $id, $params );
+
 
 			if ( $section ) {
 				$this->sections[ $id ] = $section;
@@ -52,6 +55,8 @@ if ( ! class_exists( 'AVA_Fields_Container' ) ) {
 
 
 		public function render() {
+
+			//dd($this);
 
 			$this->html = '<div class="avaf avaf-container avaf-'.$this->params['container']['type'].'" data-container="' . esc_attr( $this->id ).'" data-option_name="' . esc_attr( $this->params['options']['option_name'] ).'">';
 
@@ -134,6 +139,10 @@ if ( ! class_exists( 'AVA_Fields_Container' ) ) {
 
 		public function get_active_section() {
 			return 'general';
+		}
+
+		public function output() {
+			echo $this->render();
 		}
 
 

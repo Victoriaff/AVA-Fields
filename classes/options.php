@@ -37,7 +37,7 @@ if ( ! class_exists( 'AVA_Fields_Options' ) ) {
             $option_value = $_REQUEST['options'];
             $response['$option_value'] = $option_value;
 
-            $options = get_option($option_name);
+            $options = (array)get_option($option_name);
 			$options = array_merge($options, $option_value);
 
 			update_option($option_name, $options);

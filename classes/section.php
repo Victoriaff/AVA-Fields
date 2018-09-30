@@ -5,26 +5,22 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 if ( ! class_exists( 'AVA_Fields_Section' ) ) {
 	class AVA_Fields_Section {
+
 		public $id;
-
+		public $container_id;
 		public $params;
-
 		public $fields;
-
-		public $container;
-
 		public $html;
-
 
 		/**
 		 * Constructor.
 		 *
 		 * @param $params
 		 */
-		public function __construct( AVA_Fields_Container $container, $id, $params ) {
+		public function __construct( $container_id, $id, $params ) {
 			global $wp_filesystem;
 
-			$this->container = $container;
+			$this->container_id = $container_id;
 			$this->id        = $id;
 			$this->params    = $params;
 
@@ -42,23 +38,19 @@ if ( ! class_exists( 'AVA_Fields_Section' ) ) {
 
 							if ( file_exists( $file ) ) {
 								require_once( $file );
-
 							}
 						}
 
 						// Add field
 						if ( class_exists( $class_name ) ) {
 
-							$field = new $class_name( $this->container, $this, $id, $field_params );
+							$field = new $class_name( $this->container_id, $this->id, $id, $field_params );
 							if ( $field ) {
 								$this->fields[ $id ] = $field;
 							}
-
-
 						}
 					}
 				}
-
 
 			}
 		}
@@ -86,6 +78,11 @@ if ( ! class_exists( 'AVA_Fields_Section' ) ) {
 			return $this->html;
 
 		}
+
+		public function this() {
+			return $this;
+		}
+
 
 	}
 }

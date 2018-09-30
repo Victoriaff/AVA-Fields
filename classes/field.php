@@ -7,26 +7,28 @@ if (!class_exists( 'AVA_Fields_Field' )) {
 	abstract class AVA_Fields_Field
 	{
 		public $type;
-
 		public $id;
-		
-		public $container;
-		
-		public $section;
-
+		public $container_id;
+		public $section_id;
 		public $params;
-
 		public $html;
-
         public $options;
 
-		public function __construct(AVA_Fields_Container $container, AVA_Fields_Section $section, $id, $params) {
+        public $field_dir;
+        public $field_url;
+
+		public function __construct($container_id, $section_id, $id, $params) {
 
 			$this->id = $id;
-			$this->container = $container;
-			$this->section = $section;
+			$this->container_id = $container_id;
+			$this->section_id = $section_id;
 			$this->params = $params;
-            $this->options = $this->container->options->options;
+
+            $this->options = AVA_Fields()->container($this->container_id)->options->options;
+
+			$this->field_dir = AVA_Fields()->dir('fields') . $this->type . '/';
+			$this->field_url = AVA_Fields()->url('fields') . $this->type . '/';
+
 		}
 
 		/**
@@ -147,6 +149,14 @@ if (!class_exists( 'AVA_Fields_Field' )) {
 			if (empty($this->params['texts']['after'])) return '';
 
 			return '<span class="avaf-after">' . $this->params['texts']['after'] . '</span>';
+		}
+
+		public function add_handler( $dir ) {
+			AVA_Fields()->handlers[] = $dir;
+		}
+
+		public function get_unique_id( $suffix ) {
+			return AVA_Fields()->container($this->container_id)->id . '-' . AVA_Fields()->section($this->container_id, $this->section_id)->id . '-' . preg_replace('/[^a-z0-9_-]/i', '_', $suffix);
 		}
 
 		/**

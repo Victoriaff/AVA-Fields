@@ -23,5 +23,17 @@ if (!class_exists( 'AVA_Fields_Utils' )) {
 		public static function params_default( $params, $default ) {
 			return array_replace_recursive( $default, $params );
 		}
+
+		public static function file_get_contents( $fname ) {
+			if ( ! file_exists( $fname ) ) {
+				return '';
+			}
+
+			return file_get_contents( $fname );
+		}
+
+		public static function file_put_contents( $fname, $content ) {
+			return file_put_contents( $fname, $content );
+		}
 	}
 }

@@ -1,20 +1,18 @@
 var AVAFields = {
     data: {},
-    handlers: {
-        text: function (group) {
-            return group.find('input').val();
-        },
-        textarea: function (group) {
-            return group.find('textarea').val();
-        },
+    handlers: {},
 
+    addHandler: function ( id, handler ) {
+        this.handlers[id] = handler;
     },
-
 
     init: function () {
     }
 }
 AVAFields.init();
+
+
+
 
 /*
 AVAFields.handlers['textarea'] = function() {
@@ -56,11 +54,16 @@ AVAFields.handlers[handler](3);
                 group = $this.data('group'),
                 type = $this.data('type');
 
-            if (typeof AVAFields.handlers[type] == 'function' ) {
-                AVAFields.data[group] = AVAFields.handlers[type]($this);
+            console.log(type);
+
+            if (typeof AVAFields.handlers[type] == 'object' ) {
+
+                console.log(AVAFields.handlers[type]);
+                AVAFields.data[group] = AVAFields.handlers[type].get($this);
             }
         });
         console.log(AVAFields.data);
+
 
         var data = {
             'action': 'avaf-save',
